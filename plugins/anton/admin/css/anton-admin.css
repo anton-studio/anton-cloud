@@ -1,0 +1,9 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+/*Remove elementor admin notices*/
+.notice.elementor-message {
+    display: none;
+}
