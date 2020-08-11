@@ -245,10 +245,4 @@ class Anton_Admin {
         type='text' value='" . esc_attr( $language   ) . "' />";
     }
 
-    public function render_admin_notices() {
-	    echo '<h1>hello from anton cloud</h1>';
-    }
-
-
-
 }
