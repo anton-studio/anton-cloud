@@ -104,6 +104,7 @@ class Anton {
 		 * core plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-anton-loader.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-anton-theme-plugin-limit.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
@@ -153,12 +154,15 @@ class Anton {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Anton_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_theme_limit = new Theme_Plugin_Limit();
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		$this->loader->add_action('admin_menu', $plugin_admin, 'create_menu');
 		$this->loader->add_action('admin_init', $plugin_admin, 'register_setting');
 //		$this->loader->add_action('admin_notices', $plugin_admin, 'render_admin_notices', 21);
+        $this->loader->add_filter('all_plugins', $plugin_theme_limit, 'filter_plugins');
+        $this->loader->add_filter('wp_prepare_themes_for_js', $plugin_theme_limit, 'filter_themes');
 
 
 	}
