@@ -112,6 +112,13 @@ class Anton_Admin {
             'anton-help', array($this, 'render_anton_help_page' ) );
         add_submenu_page( 'anton-options', 'Uninstall The Anton Plugin', 'Uninstall', 'manage_options',
             'anton-uninstall', array($this, 'render_anton_uninstall_page' ) );
+
+    }
+
+    public function clean_up_menu() {
+        remove_submenu_page('index.php', 'wu-new-site');
+        remove_submenu_page('index.php', 'my-sites.php');
+        remove_submenu_page('tools.php', 'ms-delete-site.php');
     }
 
     public function register_setting() {
@@ -243,6 +250,17 @@ class Anton_Admin {
         // echo the field
         echo "<input id='language' name='anton_plugin_options[language]'
         type='text' value='" . esc_attr( $language   ) . "' />";
+    }
+
+    public function remove_admin_bar_item($wp_admin_bar) {
+	    // remove it not super admin
+        if (!current_user_can('manage_network')) {
+            $wp_admin_bar->remove_menu('my-sites');
+        }
+    }
+
+    public function adjust_account_position($position) {
+	    return 0;
     }
 
 }

@@ -16,6 +16,9 @@ if (!defined('ABSPATH')) {
 
 class WU_Page_My_Account extends WU_Page {
 
+    public $type = 'sub-menu';
+    public $parent = 'anton-options';
+
   /**
    * In this particular case, we need to override the construct to only add this when needed
    *
@@ -182,6 +185,20 @@ class WU_Page_My_Account extends WU_Page {
     WP_Ultimo()->render('widgets/account/change-plan');
 
   } // end output_widget_change_plan;
+
+    public function add_submenu_page() {
+
+        return add_submenu_page(
+            $this->parent,
+            $this->title,
+            $this->get_menu_title(),
+            $this->capability,
+            $this->id,
+            array($this, 'display'),
+            $this->position,
+        );
+
+    } // end add_submenu_page;
   
   /**
    * Renders the Account Status widget
@@ -194,12 +211,13 @@ class WU_Page_My_Account extends WU_Page {
     WP_Ultimo()->render('widgets/account/account-status');
 
   } // end output_widget_account_status;
-  
+
 } // end class WU_Page_My_Account;
 
 new WU_Page_My_Account(false, array(
   'id'         => 'wu-my-account',
-  'type'       => 'menu',
+  'type'       => 'sub-menu',
+  'parent'     => 'anton-options',
   'title'      => apply_filters('wu_my_accounts_page_title', __('Account', 'wp-ultimo')),
   'menu_title' => apply_filters('wu_my_accounts_page_title', __('Account', 'wp-ultimo')),
   'menu_icon'  => apply_filters('wu_my_accounts_page_icon', 'dashicons-id'),

@@ -160,12 +160,17 @@ class Anton {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action('admin_menu', $plugin_admin, 'create_menu');
+		$this->loader->add_action('admin_menu', $plugin_admin, 'create_menu', 2);
+        $this->loader->add_action('admin_menu', $plugin_admin, 'clean_up_menu', 9999);
+
 		$this->loader->add_action('admin_init', $plugin_admin, 'register_setting');
+
+		$this->loader->add_action('admin_bar_menu', $plugin_admin, 'remove_admin_bar_item', 9999);
 
 		$this->loader->add_action('admin_notices', $plugin_ads, 'render_admin_notices', 21);
         $this->loader->add_filter('all_plugins', $plugin_theme_limit, 'filter_plugins');
         $this->loader->add_filter('wp_prepare_themes_for_js', $plugin_theme_limit, 'filter_themes');
+        $this->loader->add_filter('wu_my_account_menu_position', $plugin_admin, 'adjust_account_position', 9999);
 
 
 	}
